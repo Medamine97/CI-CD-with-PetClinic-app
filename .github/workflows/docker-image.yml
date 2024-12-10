@@ -28,21 +28,28 @@ jobs:
       run: docker images docker.io/${{ secrets.DOCKER_USERNAME }}/petclinic:latest
   
   sonarqube:
-    runs-on: ubuntu-latest
-    needs: [build]
+      runs-on: ubuntu-latest
+      needs: [build]
 
-    steps:
-    - uses: actions/checkout@v3
-      with:
-        fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-    - name: Setup Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: "3.x"
-    - name: Install tox and any other packages
-      run: |
-        pip install tox
-    - name: Run SonarQube analysis
-      run: |
-        # Add commands to run SonarQube analysis here
-        echo "SonarQube analysis step"
+      steps:
+        - uses: actions/checkout@v4
+          with:
+            fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
+        - name: Setup Python
+          uses: actions/setup-python@v2
+          with:
+            python-version: "3.x"
+        - name: Install tox and any other packages
+          run: |
+                pip install tox
+                pip install pytest-cov
+        - name: Run tox
+          run: tox -e py
+        - name: SonarCloud Scan
+          uses: SonarSource/sonarcloud-github-action@master
+          env:
+            SONAR_TOKEN: ${{ secrets.PETCLINIC_SONAR_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}  # Needed to get PR information, if any
+          with:
+            args: >
+              -Dsonar.sources=.
