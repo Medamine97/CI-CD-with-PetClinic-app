@@ -5,10 +5,10 @@ metadata:
   namespace: default
 spec:
   rules:
-  - host: 89.168.60.113
+  - host: 89.168.60.113.nip.io
     http:
       paths:
-      - path: /
+      - path: /petclinic
         pathType: Prefix
         backend:
           service:
