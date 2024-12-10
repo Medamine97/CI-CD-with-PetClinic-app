@@ -11,7 +11,7 @@ COPY . .
 RUN ./mvnw package
 
 # Use an official OpenJDK runtime as a parent image
-FROM adoptopenjdk:17-jdk-hotspot-bionic
+FROM eclipse-temurin:17-jdk
 
 # Set the working directory in the container
 WORKDIR /app
