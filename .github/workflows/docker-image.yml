@@ -32,24 +32,28 @@ jobs:
       needs: [build]
 
       steps:
-        - uses: actions/checkout@v4
-          with:
-            fetch-depth: 0 # Shallow clones should be disabled for a better relevancy of analysis
-        - name: Setup Python
-          uses: actions/setup-python@v2
-          with:
-            python-version: "3.x"
-        - name: Install tox and any other packages
-          run: |
-                pip install tox
-                pip install pytest-cov
-        - name: Run tox
-          run: tox -e py
-        - name: SonarCloud Scan
-          uses: SonarSource/sonarcloud-github-action@master
-          env:
-            SONAR_TOKEN: ${{ secrets.PETCLINIC_SONAR_TOKEN }}
-            GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}  # Needed to get PR information, if any
-          with:
-            args: >
-              -Dsonar.sources=.
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'zulu' # Alternative distribution options are available.
+      - name: Cache SonarQube packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.TOKEN_GITHUB }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Medamine97_CI-CD-with-PetClinic-app
