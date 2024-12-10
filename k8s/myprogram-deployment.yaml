@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: petclinic-deployment
+  labels:
+    app: petclinic
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: petclinic
+  template:
+    metadata:
+      labels:
+        app: petclinic
+    spec:
+      containers:
+      - name: mycontainer
+        image: docker.io/medamine97/petclinic:latest
+        ports:
+        - containerPort: 80
+        resources:
+          limits:
+            cpu: "1"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "256Mi"
+      #   volumeMounts:
+      #   - mountPath: /config
+      #     name: config-volume
+      #   - mountPath: /data
+      #     name: petclinic-storage
+      #   - mountPath: /secrets
+      #     name: secret-volume
+      #     readOnly: true
+      # volumes:
+      # - name: config-volume
+      #   configMap:
+      #     name: petclinic-config
+      # - name: petclinic-storage
+      #   persistentVolumeClaim:
+      #     claimName: petclinic-pvc
+      # - name: secret-volume
+      #   secret:
+      #     secretName: petclinic-secret
