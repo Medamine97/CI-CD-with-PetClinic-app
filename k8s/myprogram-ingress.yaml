@@ -3,6 +3,9 @@ kind: Ingress
 metadata:
   name: petclinic-ingress
   namespace: default
+  annotations:
+    traefik.ingress.kubernetes.io/router.entrypoints: web
+    traefik.ingress.kubernetes.io/router.rule: Host(`89.168.60.113.nip.io`) && PathPrefix(`/petclinic`)
 spec:
   rules:
   - host: 89.168.60.113.nip.io
