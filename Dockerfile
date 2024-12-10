@@ -4,11 +4,19 @@ FROM maven:3.8.4-openjdk-17 AS build
 # Set the working directory in the container
 WORKDIR /app
 
-# Copy the entire project into the container
-COPY . .
+# Copy only necessary files for dependency resolution first
+COPY pom.xml ./
+COPY .mvn .mvn
+COPY mvnw ./
+
+# Download dependencies (this layer is cached if pom.xml does not change)
+RUN chmod +x ./mvnw && ./mvnw dependency:go-offline
+
+# Copy the remaining project files
+COPY src ./src
 
 # Build the application
-RUN ./mvnw package
+RUN ./mvnw package -DskipTests
 
 # Use an official OpenJDK runtime as a parent image
 FROM eclipse-temurin:17-jdk
@@ -19,7 +27,7 @@ WORKDIR /app
 # Copy the jar file from the build stage
 COPY --from=build /app/target/*.jar petclinic.jar
 
-# Make port 8080 available to the world outside this container
+# Expose port 8080
 EXPOSE 8080
 
 # Run the jar file
