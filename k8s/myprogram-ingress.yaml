@@ -10,7 +10,7 @@ spec:
   - host: 89.168.60.113.nip.io
     http:
       paths:
-      - path: /petclinic
+      - path: /
         pathType: Prefix
         backend:
           service:
