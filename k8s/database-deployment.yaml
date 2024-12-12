@@ -27,21 +27,21 @@ spec:
           requests:
             cpu: "100m"
             memory: "256Mi"
-      #   volumeMounts:
-      #   - mountPath: /config
-      #     name: config-volume
-      #   - mountPath: /data
-      #     name: petclinic-storage
-      #   - mountPath: /secrets
-      #     name: secret-volume
-      #     readOnly: true
-      # volumes:
+        volumeMounts:
+        # - mountPath: /config
+        #   name: config-volume
+        - mountPath: /data
+          name: petclinic-storage
+        # - mountPath: /secrets
+        #   name: secret-volume
+        #   readOnly: true
+      volumes:
       # - name: config-volume
       #   configMap:
       #     name: petclinic-config
-      # - name: petclinic-storage
-      #   persistentVolumeClaim:
-      #     claimName: petclinic-pvc
+      - name: petclinic-storage
+        persistentVolumeClaim:
+          claimName: petclinic-pvc
       # - name: secret-volume
       #   secret:
       #     secretName: petclinic-secret
