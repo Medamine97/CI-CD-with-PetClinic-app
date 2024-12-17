@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: petclinic-deployment
+  name: database-deployment
   namespace: default
   labels:
     app: petclinic
@@ -31,7 +31,7 @@ spec:
         # - mountPath: /config
         #   name: config-volume
         - mountPath: /data
-          name: petclinic-storage
+          name: database-storage
         # - mountPath: /secrets
         #   name: secret-volume
         #   readOnly: true
@@ -39,7 +39,7 @@ spec:
       # - name: config-volume
       #   configMap:
       #     name: petclinic-config
-      - name: petclinic-storage
+      - name: database-storage
         persistentVolumeClaim:
           claimName: petclinic-pvc
       # - name: secret-volume
