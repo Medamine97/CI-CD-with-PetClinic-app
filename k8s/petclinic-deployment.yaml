@@ -30,6 +30,8 @@ spec:
         env:
         - name: SPRING_PROFILES_ACTIVE
           value: "production"
+        - name: SPRING_DATASOURCE_URL
+          value: "jdbc:mysql://database-service:3306/petclinic"
       #   volumeMounts:
       #   - mountPath: /config
       #     name: config-volume
