@@ -32,6 +32,10 @@ spec:
           value: "production"
         - name: SPRING_DATASOURCE_URL
           value: "jdbc:mysql://database-service:3306/petclinic"
+        - name: SPRING_DATASOURCE_USERNAME
+          value: "petclinic"
+        - name: SPRING_DATASOURCE_PASSWORD
+          value: "petclinic"
       #   volumeMounts:
       #   - mountPath: /config
       #     name: config-volume
