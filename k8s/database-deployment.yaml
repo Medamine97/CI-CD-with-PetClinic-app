@@ -30,7 +30,7 @@ spec:
         volumeMounts:
         # - mountPath: /config
         #   name: config-volume
-        - mountPath: /data
+        - mountPath: /var/lib/mysql
           name: database-storage
         # - mountPath: /secrets
         #   name: secret-volume
