@@ -4,16 +4,16 @@ metadata:
   name: database-deployment
   namespace: default
   labels:
-    app: petclinic
+    app: database
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: petclinic
+      app: database
   template:
     metadata:
       labels:
-        app: petclinic
+        app: database
     spec:
       containers:
       - name: mycontainer
