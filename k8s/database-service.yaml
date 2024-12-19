@@ -4,10 +4,10 @@ metadata:
   name: database-service
   namespace: default
   labels:
-    app: petclinic
+    app: database
 spec:
   selector:
-    app: petclinic
+    app: database
   ports:
     - protocol: TCP
       port: 3306
