@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: petclinic-deployment
-  namespace: default
   labels:
     app: petclinic
 spec:
@@ -31,7 +30,7 @@ spec:
         - name: SPRING_PROFILES_ACTIVE
           value: "mysql"
         - name: SPRING_DATASOURCE_URL
-          value: "jdbc:mysql://database-service.default.svc.cluster.local:3306/petclinic"
+          value: "jdbc:mysql://database-service.petclinic.svc.cluster.local:3306/petclinic"
         - name: SPRING_DATASOURCE_USERNAME
           value: "petclinic"
         - name: SPRING_DATASOURCE_PASSWORD
